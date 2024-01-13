@@ -10,6 +10,10 @@ export abstract class BaseMemoryRepository<T extends Entity<EntityId>> implement
     return this.entities.get(id) || null;
   }
 
+  public async findAll(): Promise<T[]> {
+    return Array.from(this.entities.values());
+  }
+
   public async save(entity: T): Promise<T> {
     if (!entity.id) {
       entity.id = randomUUID();
