@@ -1,0 +1,22 @@
+### Create a new user
+POST http://localhost:3100/api/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "agustin.prohaska@gmail.com",
+  "name": "Otto Rau",
+  "password": "7oanrxbf49e",
+  "avatar": "avatar.png"
+}
+
+### Get user by Id
+GET http://localhost:3100/api/auth/16b106eb-5552-4da6-b90b-6b6c470c122b HTTP/1.1
+
+### Login a user
+POST http://localhost:3100/api/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "agustin.prohaska@gmail.com",
+  "password": "7oanrxbf49e"
+}
