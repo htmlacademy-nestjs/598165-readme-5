@@ -1,16 +1,17 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { AuthError } from '../user/user.constants';
+import { UserRepository } from '../user/user.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserEntity } from '../user/user.entity';
-import { UserRepository } from '../user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
-  ) {}
+  ) {
+  }
 
   public async register(dto: CreateUserDto) {
     const {email, name, password, avatar} = dto;
@@ -44,10 +45,16 @@ export class AuthService {
       throw new ConflictException(AuthError.WRONG_PASSWORD);
     }
 
-    return entity.toPlain()
-  }
-  public async get(id: string) {
-    return  this.userRepository.find(id);
+    return entity.toPlainObject()
   }
 
+  public async get(id: string) {
+    const user = await this.userRepository.find(id);
+
+    if (!user) {
+      throw new NotFoundException(AuthError.NOT_FOUND);
+    }
+
+    return user
+  }
 }

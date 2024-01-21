@@ -14,7 +14,7 @@ export class UserEntity implements AuthUser, Entity<string> {
     this.populate(user);
   }
 
-  public toPlain() {
+  public toPlainObject() {
     return {
       id: this.id,
       avatar: this.avatar,
@@ -40,5 +40,9 @@ export class UserEntity implements AuthUser, Entity<string> {
 
   public async comparePassword(password: string): Promise<boolean> {
     return compare(password, this.passwordHash)
+  }
+
+  static fromPlainObject(user: AuthUser): UserEntity {
+    return new UserEntity(user);
   }
 }
